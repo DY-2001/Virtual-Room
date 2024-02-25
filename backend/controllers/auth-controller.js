@@ -1,7 +1,8 @@
 const OtpService = require("../services/otp-service");
 const HashService = require("../services/hash-service");
 const UserService = require("../services/user-service");
-const userService = require("../services/user-service");
+const TokenService = require("../services/token-service");
+
 
 class AuthController {
   async sendOtp(req, res) {
@@ -52,16 +53,19 @@ class AuthController {
     let accessToken;
     let refreshToken;
     
+    //user Creation
     try {
-      user = await userService.findUser({phone});
+      user = await UserService.findUser({phone});
       if(!user) {
-        user = await userService.createUser({phone});
+        user = await UserService.createUser({phone});
       }
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "" });
     }
 
+    //JWT
+    tokenService.gen
   }
 }
 
