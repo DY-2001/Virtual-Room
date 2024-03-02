@@ -2,7 +2,7 @@ const OtpService = require("../services/otp-service");
 const HashService = require("../services/hash-service");
 const UserService = require("../services/user-service");
 const TokenService = require("../services/token-service");
-
+const UserDto = require("../dtos/user-dto");
 
 class AuthController {
   async sendOtp(req, res) {
@@ -20,10 +20,11 @@ class AuthController {
     const hash = await HashService.hashOtp(data);
 
     try {
-      await OtpService.sendBySms(phone, otp);
+      // await OtpService.sendBySms(phone, otp);
       res.json({
         hash: `${hash}.${expires}`,
         phone,
+        otp,
       });
     } catch (error) {
       console.log(error);
@@ -33,31 +34,29 @@ class AuthController {
 
   async verifyOtp(req, res) {
     const { otp, hash, phone } = req.body;
-    if(!otp || !hash || !phone) {
+    if (!otp || !hash || !phone) {
       res.status(400).json({ message: "All fields are required!" });
     }
 
     const [hashedOtp, expires] = hash.split(".");
-    if(Date.now() > +expires) {
+    if (Date.now() > +expires) {
       res.status(400).json({ message: "OTP has expired" });
     }
 
     const data = `${phone}.${otp}.${expires}`;
     const isValid = await OtpService.verifyOtp(hashedOtp, data);
 
-    if(!invalid) {
+    if (!isValid) {
       res.status(400).json({ message: "Invalid OTP" });
     }
 
     let user;
-    let accessToken;
-    let refreshToken;
-    
+
     //user Creation
     try {
-      user = await UserService.findUser({phone});
-      if(!user) {
-        user = await UserService.createUser({phone});
+      user = await UserService.findUser({ phone });
+      if (!user) {
+        user = await UserService.createUser({ phone });
       }
     } catch (error) {
       console.log(error);
@@ -65,7 +64,17 @@ class AuthController {
     }
 
     //JWT
-    tokenService.gen
+    const { accessToken, refreshToken } = TokenService.generateTokens({
+      _id: user._id,
+      activated: false,
+    });
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+
+    const userDto = new UserDto(user);
+    res.json({ accessToken, user: userDto });
   }
 }
 
