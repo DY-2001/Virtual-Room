@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   name: "",
-  avatar: "",
+  avatar: "./images/monkey-avatar.png",
 };
 
 export const activateSlice = createSlice({
@@ -12,12 +12,12 @@ export const activateSlice = createSlice({
     setName: (state, action) => {
       state.name = action.payload;
     },
-    stepAvatar: (state, action) => {
+    setAvatar: (state, action) => {
       state.avatar = action.payload;
     },
   },
 });
 
-export const { setName, stepAvatar } = activateSlice.actions;
+export const { setName, setAvatar } = activateSlice.actions;
 
 export default activateSlice.reducer;
