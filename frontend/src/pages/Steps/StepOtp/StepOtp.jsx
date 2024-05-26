@@ -25,7 +25,7 @@ const StepOtp = ({ onNext }) => {
 
   return (
     <>
-      <sdiv className={styles.cardWrapper}>
+      <div className={styles.cardWrapper}>
         <Card title="Enter the code we just texted you" icon="lock-emoji">
           <TextInput value={otp} onChange={(e) => setOtp(e.target.value)} />
           <div className={styles.actionButtonWrap}>
@@ -36,7 +36,7 @@ const StepOtp = ({ onNext }) => {
             Privacy Policy. Thanks!
           </p>
         </Card>
-      </sdiv>
+      </div>
     </>
   );
 };
