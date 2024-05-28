@@ -7,7 +7,7 @@ const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
 class TokenService {
   generateTokens(payLoad) {
     const accessToken = jwt.sign(payLoad, accessTokenSecret, {
-      expiresIn: "1h",
+      expiresIn: "1m",
     });
 
     const refreshToken = jwt.sign(payLoad, refreshTokenSecret, {
@@ -30,6 +30,18 @@ class TokenService {
 
   async verifyAccessToken(token) {
     return jwt.verify(token, accessTokenSecret);
+  }
+
+  async verifyRefreshToken(token) {
+    return jwt.verify(token, refreshTokenSecret);
+  }
+
+  async findRefreshToken(userId, refreshToken) {
+    return await refreshModel.findOne({ userId: userId, token: refreshToken });
+  }
+
+  async updateRefreshToken(userId, refreshToken) {
+    return await refreshModel.updateOne({ userId, token: refreshToken });
   }
 }
 

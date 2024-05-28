@@ -3,6 +3,7 @@ const path = require("path");
 const userService = require("../services/user-service");
 const UserDto = require("../dtos/user-dto");
 const fs = require("fs");
+const tokenService = require("../services/token-service");
 
 class ActivateController {
   async activate(req, res) {
@@ -42,6 +43,61 @@ class ActivateController {
     } catch (err) {
       res.status(500).json({ message: "Something went wrong!" });
     }
+  }
+
+  async refreshToken(req, res) {
+    const { refreshToken: refreshTokenFromCookie } = req.cookies;
+
+    if (!refreshTokenFromCookie) {
+      return res.status(403).json({ message: "User not authenticated" });
+    }
+
+    let userData;
+    try {
+      userData = await tokenService.verifyRefreshToken(refreshTokenFromCookie);
+    } catch (err) {
+      return res.status(401).json({ message: "Invalid Token" });
+    }
+
+    try {
+      const token = await tokenService.findRefreshToken(
+        userData._id,
+        refreshTokenFromCookie
+      );
+      if (!token) {
+        return res.status(401).json({ message: "Invalid Token" });
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "Internal Error" });
+    }
+
+    const user = await userService.findUser({ _id: userData._id });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { refreshToken, accessToken } = tokenService.generateTokens({
+      _id: user._id,
+    });
+
+    try {
+      await tokenService.updateRefreshToken(userData._id, refreshToken);
+    } catch (err) {
+      return res.status(500).json({ message: "Internal Error" });
+    }
+
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+
+    res.cookie("accessToken", accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+
+    const userDto = new UserDto(user);
+    res.json({ user: userDto, auth: true });
   }
 }
 
