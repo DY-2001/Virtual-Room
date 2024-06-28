@@ -16,7 +16,6 @@ const StepOtp = ({ onNext }) => {
   async function submit() {
     try {
       const { data } = await verifyOtp({ otp, phone, hash });
-      console.log("this is second request", data);
       dispatch(setAuth(data));
     } catch (error) {
       console.log(error);

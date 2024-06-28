@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../../components/shared/Card/Card";
 import Button from "../../../components/shared/Button/Button";
 import styles from "./StepAvatar.module.css";
@@ -12,6 +13,7 @@ const StepAvatar = ({ onNext }) => {
   const { name, avatar } = useSelector((state) => state.activate);
   const dispatch = useDispatch();
   const [image, setImage] = useState(avatar);
+  const navigate = useNavigate();
 
   const captureImage = (e) => {
     const file = e.target.files[0];
@@ -28,8 +30,8 @@ const StepAvatar = ({ onNext }) => {
       const { data } = await activate({ name, avatar });
       if (data.auth) {
         dispatch(setAuth(data));
+        navigate("/rooms");
       }
-      onNext();
     } catch (error) {
       console.log(error);
     }

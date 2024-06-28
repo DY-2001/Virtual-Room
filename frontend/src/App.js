@@ -6,14 +6,13 @@ import Authenticate from "./pages/Authenticate/Authenticate";
 import Activate from "./pages/Activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
 import { useSelector } from "react-redux";
-
-// const isAuth = false;
-// const user = {
-//   activate: false,
-// };
+import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh.js";
 
 function App() {
-  return (
+  const { loading } = useLoadingWithRefresh();
+  return loading ? (
+    "Loading..."
+  ) : (
     <BrowserRouter>
       <Navigation />
       <Routes>
@@ -58,7 +57,7 @@ const ProtectedRoute = ({ children }) => {
   const { user, isAuth } = useSelector((state) => state.auth);
   return !isAuth ? (
     <Navigate to="/" />
-  ) : !user.activate ? (
+  ) : !user.activated ? (
     <Navigate to="/activate" />
   ) : (
     children

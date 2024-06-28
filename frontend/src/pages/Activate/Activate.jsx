@@ -11,7 +11,7 @@ const Activate = () => {
   const [step, setStep] = useState(1);
   const Step = steps[step];
 
-  const onNext = () => {
+  function onNext() {
     setStep(step + 1);
   };
 
