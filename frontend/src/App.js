@@ -7,11 +7,12 @@ import Activate from "./pages/Activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
 import { useSelector } from "react-redux";
 import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh.js";
+import Loader from "./components/shared/Loader/Loader";
 
 function App() {
   const { loading } = useLoadingWithRefresh();
   return loading ? (
-    "Loading..."
+    <Loader message="Loading, please wait..."/>
   ) : (
     <BrowserRouter>
       <Navigation />

@@ -8,11 +8,13 @@ import { useSelector } from "react-redux";
 import { setAvatar } from "../../../store/activateSlice";
 import { setAuth } from "../../../store/authSlice";
 import { activate } from "../../../http";
+import Loader from "../../../components/shared/Loader/Loader";
 
 const StepAvatar = ({ onNext }) => {
   const { name, avatar } = useSelector((state) => state.activate);
   const dispatch = useDispatch();
   const [image, setImage] = useState(avatar);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const captureImage = (e) => {
@@ -26,6 +28,7 @@ const StepAvatar = ({ onNext }) => {
   };
 
   const submit = async () => {
+    setLoading(true);
     try {
       const { data } = await activate({ name, avatar });
       if (data.auth) {
@@ -34,8 +37,14 @@ const StepAvatar = ({ onNext }) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if(loading) {
+    return <Loader message="Activation in progress..."/>
+  }
 
   return (
     <>
