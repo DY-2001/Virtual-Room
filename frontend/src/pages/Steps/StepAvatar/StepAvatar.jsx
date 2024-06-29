@@ -28,6 +28,7 @@ const StepAvatar = ({ onNext }) => {
   };
 
   const submit = async () => {
+    if (!name || !avatar) return alert("Please fill in all fields");
     setLoading(true);
     try {
       const { data } = await activate({ name, avatar });
@@ -42,8 +43,8 @@ const StepAvatar = ({ onNext }) => {
     }
   };
 
-  if(loading) {
-    return <Loader message="Activation in progress..."/>
+  if (loading) {
+    return <Loader message="Activation in progress..." />;
   }
 
   return (

@@ -12,10 +12,11 @@ const Phone = ({ onNext }) => {
 
   const submit = async () => {
     //server request
+    if (!phoneNumber) return alert("Please enter a phone number");
     const { data } = await sendOtp({ phone: phoneNumber });
-    console.log(data.otp)
+    console.log(data.otp);
     dispatch(setOtp({ phone: data.phone, hash: data.hash }));
-    onNext()
+    onNext();
   };
   return (
     <Card title="Enter your phone number" icon="phone">

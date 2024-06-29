@@ -14,6 +14,7 @@ const StepOtp = ({ onNext }) => {
   const dispatch = useDispatch();
 
   async function submit() {
+    if (!otp || !phone || !hash) return alert("Please fill in all fields");
     try {
       const { data } = await verifyOtp({ otp, phone, hash });
       dispatch(setAuth(data));
