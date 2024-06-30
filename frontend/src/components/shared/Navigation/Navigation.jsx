@@ -36,19 +36,15 @@ const Navigation = () => {
         <img src="/images/logo.png" alt="logo" />
         <span style={logoText}>Codershouse</span>
       </Link>
-      <div className={styles.navRight}>
-        {user && (
-          <>
-            <h3>{user.name}</h3>
-            <img
-              className={styles.avatar}
-              src={user.avatar ? user.avatar : "/images/monkey-avatar.png"}
-              style={{ width: "40px", height: "40px" }}
-              alt="avatar"
-            />
-          </>
-        )}
-        {isAuth && (
+      {isAuth && (
+        <div className={styles.navRight}>
+          <h3 style={{ letterSpacing: "0.5px" }}>{user?.name}</h3>
+          <img
+            className={styles.avatar}
+            src={user.avatar ? user.avatar : "/images/monkey-avatar.png"}
+            style={{ width: "40px", height: "40px" }}
+            alt="avatar"
+          />
           <button className={styles.logoutButton} onClick={logoutUser}>
             <img
               className={styles.logoutImg}
@@ -56,8 +52,8 @@ const Navigation = () => {
               alt="Logout"
             />
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 };

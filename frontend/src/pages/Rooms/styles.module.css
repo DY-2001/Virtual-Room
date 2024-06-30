@@ -63,7 +63,7 @@
 }
 
 .startRoomButton:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
     transition: all 0.4s ease-in-out;
 }
 
