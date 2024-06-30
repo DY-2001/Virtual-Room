@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../../../components/shared/Card/Card";
 import Button from "../../../components/shared/Button/Button";
@@ -16,6 +16,7 @@ const StepAvatar = ({ onNext }) => {
   const [image, setImage] = useState(avatar);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [unMounted, setUnMounted] = useState(false);
 
   const captureImage = (e) => {
     const file = e.target.files[0];
@@ -33,8 +34,10 @@ const StepAvatar = ({ onNext }) => {
     try {
       const { data } = await activate({ name, avatar });
       if (data.auth) {
-        dispatch(setAuth(data));
-        navigate("/rooms");
+        if (unMounted) {
+          dispatch(setAuth(data));
+          navigate("/rooms");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -42,6 +45,10 @@ const StepAvatar = ({ onNext }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    return () => setUnMounted(true);
+  }, []);
 
   if (loading) {
     return <Loader message="Activation in progress..." />;
