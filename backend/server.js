@@ -6,6 +6,7 @@ const router = require("./routes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
+app.use("/storage", express.static("storage"));
 app.use(cookieParser());
 const corsOptions = {
   credentials: true,

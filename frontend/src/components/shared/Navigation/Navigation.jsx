@@ -8,7 +8,6 @@ import { setAuth } from "../../../store/authSlice";
 const Navigation = () => {
   const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state) => state.auth);
-  console.log("dushyant", user);
   const brandStyle = {
     color: "#fff",
     textDecoration: "none",
@@ -44,8 +43,7 @@ const Navigation = () => {
             <img
               className={styles.avatar}
               src={user.avatar ? user.avatar : "/images/monkey-avatar.png"}
-              width="40"
-              height="40"
+              style={{ width: "40px", height: "40px" }}
               alt="avatar"
             />
           </>
