@@ -34,10 +34,10 @@ const StepAvatar = ({ onNext }) => {
     try {
       const { data } = await activate({ name, avatar });
       if (data.auth) {
-        if (unMounted) {
-          dispatch(setAuth(data));
-          navigate("/rooms");
-        }
+        // if (unMounted) {
+        dispatch(setAuth(data));
+        navigate("/rooms");
+        // }
       }
     } catch (error) {
       console.log(error);
