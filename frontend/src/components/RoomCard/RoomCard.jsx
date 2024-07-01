@@ -22,7 +22,17 @@ const RoomCard = ({ room }) => {
       >
         <div className={styles.avatars}>
           {room.speakers.map((speaker) => (
-            <img key={speaker.id} src={speaker.avatar} alt="speaker" />
+            <img
+              style={{
+                width: "40px",
+                height: "40px",
+                maxWidth: "40px",
+                maxHeight: "40px",
+              }}
+              key={speaker.id}
+              src={speaker.avatar}
+              alt="speaker"
+            />
           ))}
         </div>
         <div className={styles.names}>

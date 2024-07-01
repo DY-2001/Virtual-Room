@@ -42,7 +42,12 @@ const Navigation = () => {
           <img
             className={styles.avatar}
             src={user.avatar ? user.avatar : "/images/monkey-avatar.png"}
-            style={{ width: "40px", height: "40px" }}
+            style={{
+              width: "40px",
+              height: "40px",
+              maxWidth: "40px",
+              maxHeight: "40px",
+            }}
             alt="avatar"
           />
           <button className={styles.logoutButton} onClick={logoutUser}>
