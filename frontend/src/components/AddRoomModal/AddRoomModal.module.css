@@ -30,9 +30,11 @@
 }
 
 .roomTypes {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 30px; */
+    display: flex;   /*will remove when there is another type of room*/
+    justify-content: center;  /*will remove when there is another type of room*/
 }
 
 .typeBox {
@@ -44,6 +46,7 @@
     border-radius: 10px;
     gap: 10px;
     cursor: pointer;
+    width: 200px; /*will remove when there is another type of room*/
 }
 
 .active {

@@ -50,7 +50,7 @@ const AddRoomModal = ({ setShowModal }) => {
               />
               <span>Open</span>
             </div>
-            <div
+            {/* <div
               onClick={() => setRoomType("social")}
               className={`${styles.typeBox} ${
                 roomType === "social" ? styles.active : styles.inactive
@@ -75,7 +75,7 @@ const AddRoomModal = ({ setShowModal }) => {
                 alt="lock"
               />
               <span>Private</span>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className={styles.modalFooter}>
