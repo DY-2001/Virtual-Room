@@ -4,92 +4,29 @@ import RoomCard from "../../components/RoomCard/RoomCard";
 import AddRoomModal from "../../components/AddRoomModal/AddRoomModal";
 import { getAllRooms } from "../../http";
 
-// const rooms = [
-//   {
-//     id: 1,
-//     topic: "Which framework best for frontend ?",
-//     speakers: [
-//       {
-//         id: 1,
-//         name: "John Doe",
-//         avatar: "/images/monkey-avatar.png",
-//       },
-//       {
-//         id: 2,
-//         name: "Jane Doe",
-//         avatar: "/images/monkey-avatar.png",
-//       },
-//     ],
-//     totalPeople: 40,
-//   },
-//   {
-//     id: 3,
-//     topic: "What’s new in machine learning?",
-//     speakers: [
-//       {
-//         id: 1,
-//         name: "John Doe",
-//         avatar: "/images/monkey-avatar.png",
-//       },
-//       {
-//         id: 2,
-//         name: "Jane Doe",
-//         avatar: "/images/monkey-avatar.png",
-//       },
-//     ],
-//     totalPeople: 40,
-//   },
-//   {
-//     id: 4,
-//     topic: "Why people use stack overflow?",
-//     speakers: [
-//       {
-//         id: 1,
-//         name: "John Doe",
-//         avatar: "/images/monkey-avatar.png",
-//       },
-//       {
-//         id: 2,
-//         name: "Jane Doe",
-//         avatar: "/images/monkey-avatar.png",
-//       },
-//     ],
-//     totalPeople: 40,
-//   },
-//   {
-//     id: 5,
-//     topic: "Artificial inteligence is the future?",
-//     speakers: [
-//       {
-//         id: 1,
-//         name: "John Doe",
-//         avatar: "/images/monkey-avatar.png",
-//       },
-//       {
-//         id: 2,
-//         name: "Jane Doe",
-//         avatar: "/images/monkey-avatar.png",
-//       },
-//     ],
-//     totalPeople: 40,
-//   },
-// ];
-
 const Rooms = () => {
   const [rooms, setRooms] = React.useState([]);
+  const [filteredRooms, setFilteredRooms] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
+  const [search, setSearch] = React.useState("");
 
   React.useEffect(() => {
     const fetchRooms = async () => {
       try {
         const { data } = await getAllRooms();
         setRooms(data);
+        setFilteredRooms(data);
       } catch (error) {
         console.log(error.message);
       }
     };
     fetchRooms();
   }, []);
+
+  React.useEffect(() => {
+    const filtered = rooms.filter((room) => room.topic.includes(search));
+    setFilteredRooms(filtered);
+  }, [search]);
 
   return (
     <>
@@ -103,7 +40,12 @@ const Rooms = () => {
                 src="/images/search-icon.png"
                 alt="search"
               />
-              <input type="text" className={styles.searchInput} />
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                type="text"
+                className={styles.searchInput}
+              />
             </div>
           </div>
           <div className={styles.right}>
@@ -121,7 +63,7 @@ const Rooms = () => {
           </div>
         </div>
         <div className={styles.roomList}>
-          {rooms.map((room) => (
+          {filteredRooms.map((room) => (
             <RoomCard key={room.id} room={room} />
           ))}
         </div>
