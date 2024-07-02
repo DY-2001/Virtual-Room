@@ -30,7 +30,7 @@ const Home = () => {
                     <span className={styles.hasInvite}>
                         Have an invite text?
                     </span>
-                    <Link style={signInLinkStyle} to="/login">
+                    <Link style={signInLinkStyle} to="/authenticate">
                         Sign in
                     </Link>
                 </div>
