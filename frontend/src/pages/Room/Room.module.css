@@ -1,10 +1,20 @@
+.client {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .userHead {
-    background: pink;
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
-    position: relative;
     border: 3px solid #5453e0;
+    position: relative;
+}
+
+.userHead+h4 {
+    font-weight: bold;
+    margin-top: 1rem;
 }
 
 .userAvatar {
@@ -17,28 +27,28 @@
     display: flex;
     align-items: center;
     background: none;
-    border: none;
     outline: none;
-    cursor: pointer;
     margin-top: 2rem;
+    cursor: pointer;
 }
 
 .goBack span {
+    margin-left: 1rem;
     font-weight: bold;
     color: #fff;
     font-size: 16px;
-    margin-left: 1rem;
     position: relative;
 }
 
 .goBack span::after {
-    content: "";
+    content: '';
     position: absolute;
-    bottom: -10px;
-    left: 0px;
+    bottom: -16px;
+    left: 0;
     width: 60%;
     height: 4px;
     background: #0077ff;
+    border-radius: 10px;
 }
 
 .clientsWrap {
@@ -50,15 +60,17 @@
     padding: 2rem;
 }
 
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.topic {
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.actions {
+.clientsList {
+    margin-top: 2rem;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
 }
 
 .actionBtn {
@@ -81,31 +93,17 @@
 .actionBtn span {
     font-weight: bold;
     margin-left: 1rem;
-    letter-spacing: 0.6px;
 }
 
-.topic {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.client {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.clientsList {
-    margin-top: 2rem;
+.header {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 30px;
+    justify-content: space-between;
 }
 
-.client h4 {
-    font-weight: bold;
-    margin-top: 1rem;
+.actions {
+    display: flex;
+    align-items: center;
 }
 
 .micBtn {
@@ -119,4 +117,7 @@
     border-radius: 30px;
     padding: 5px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 }
+
+.micImg {}

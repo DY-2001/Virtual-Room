@@ -1,91 +1,106 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import styles from "./Room.module.css";
-import { useWebRTC } from "../../hooks/useWebRTC";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useWebRTC } from "../../hooks/useWebRTC";
+import { useParams, useNavigate } from "react-router-dom";
 import { getRoom } from "../../http";
 
+import styles from "./Room.module.css";
+
 const Room = () => {
-  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const { id: roomId } = useParams();
-  const { user } = useSelector((state) => state.auth);
-  const { clients, provideRef, handleMute } = useWebRTC(roomId, user);
   const [room, setRoom] = useState(null);
-  const [isMute, setMute] = useState(true);
 
-  useEffect(() => {
-    handleMute(isMute, user.id);
-  }, [isMute]);
+  const { clients, provideRef, handleMute } = useWebRTC(roomId, user);
 
-  const handleManualLeave = () => {
-    navigate("/rooms");
-  };
+  const history = useNavigate();
+
+  const [isMuted, setMuted] = useState(true);
 
   useEffect(() => {
     const fetchRoom = async () => {
       const { data } = await getRoom(roomId);
-      setRoom(data);
+      setRoom((prev) => data);
     };
+
     fetchRoom();
   }, [roomId]);
 
+  useEffect(() => {
+    handleMute(isMuted, user.id);
+  }, [isMuted]);
+
+  const handManualLeave = () => {
+    history("/rooms");
+  };
+
   const handleMuteClick = (clientId) => {
-    if(clientId !== user.id) return; 
-    setMute((prev) => !prev);
+    if (clientId !== user.id) {
+      return;
+    }
+    setMuted((prev) => !prev);
   };
 
   return (
     <div>
       <div className="container">
-        <button onClick={handleManualLeave} className={styles.goBack}>
+        <button onClick={handManualLeave} className={styles.goBack}>
           <img src="/images/arrow-left.png" alt="arrow-left" />
           <span>All voice rooms</span>
         </button>
       </div>
       <div className={styles.clientsWrap}>
         <div className={styles.header}>
-          <h2 className={styles.topic}>{room?.topic}</h2>
+          {room && <h2 className={styles.topic}>{room.topic}</h2>}
           <div className={styles.actions}>
-            <button className={styles.actionBtn}>
+            {/* <button className={styles.actionBtn}>
               <img src="/images/palm.png" alt="palm-icon" />
-            </button>
-            <button onClick={handleManualLeave} className={styles.actionBtn}>
+            </button> */}
+            <button onClick={handManualLeave} className={styles.actionBtn}>
               <img src="/images/win.png" alt="win-icon" />
               <span>Leave quietly</span>
             </button>
           </div>
         </div>
         <div className={styles.clientsList}>
-          {clients &&
-            clients.map((client) => {
-              return (
-                <div key={client.id} className={styles.client}>
-                  <div className={styles.userHead}>
-                    <audio
-                      ref={(instance) => provideRef(instance, client.id)}
-                      autoPlay
-                    ></audio>
-                    <img
-                      className={styles.userAvatar}
-                      src={client.avatar}
-                      alt="avatar"
-                    />
-                    <button
-                      onClick={() => handleMuteClick(client.id)}
-                      className={styles.micBtn}
-                    >
-                      {client.muted ? (
-                        <img src="/images/mic-mute.png" alt="mic-mute-icon" />
-                      ) : (
-                        <img src="/images/mic.png" alt="mic-icon" />
-                      )}
-                    </button>
-                  </div>
-                  <h4>{client.name}</h4>
+          {clients.map((client) => {
+            return (
+              <div className={styles.client} key={client.id}>
+                <div className={styles.userHead}>
+                  <img
+                    className={styles.userAvatar}
+                    src={client.avatar}
+                    alt=""
+                  />
+                  <audio
+                    autoPlay
+                    ref={(instance) => {
+                      provideRef(instance, client.id);
+                    }}
+                  />
+                  <button
+                    onClick={() => handleMuteClick(client.id)}
+                    className={styles.micBtn}
+                  >
+                    {client.muted ? (
+                      <img
+                        className={styles.mic}
+                        src="/images/mic-mute.png"
+                        alt="mute-mic"
+                      />
+                    ) : (
+                      <img
+                        className={styles.micImg}
+                        src="/images/mic.png"
+                        alt="mic"
+                      />
+                    )}
+                  </button>
                 </div>
-              );
-            })}
+                <h4>{client.name}</h4>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
