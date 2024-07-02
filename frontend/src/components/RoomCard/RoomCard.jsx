@@ -30,7 +30,7 @@ const RoomCard = ({ room }) => {
                 maxHeight: "40px",
               }}
               key={speaker.id}
-              src={speaker.avatar}
+              src="./images/monkey-avatar.png"
               alt="speaker"
             />
           ))}

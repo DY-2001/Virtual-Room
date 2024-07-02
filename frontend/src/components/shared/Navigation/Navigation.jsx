@@ -41,7 +41,7 @@ const Navigation = () => {
           <h3 style={{ letterSpacing: "0.5px" }}>{user?.name}</h3>
           <img
             className={styles.avatar}
-            src={user.avatar ? user.avatar : "/images/monkey-avatar.png"}
+            src="/images/monkey-avatar.png"
             style={{
               width: "40px",
               height: "40px",

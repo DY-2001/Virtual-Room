@@ -11,7 +11,7 @@ const userSchema = new Schema(
       required: false,
       get: (avatar) => {
         if (avatar) {
-          return `https://virtual-room-gamma.vercel.app${avatar}`;
+          return `${avatar}`;
         }
         return avatar;
       },
