@@ -8,7 +8,7 @@ const socketInit = () => {
     transports: ["websocket"],
   };
 
-  return io("http://localhost:5500", options);
+  return io("https://virtual-room-lgv9.vercel.app", options);
 };
 
 export default socketInit;

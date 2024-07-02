@@ -10,7 +10,7 @@ const server = require("http").createServer(app);
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://virtual-room-ddlf.vercel.app",
     methods: ["GET", "POST"],
   },
 });
@@ -19,7 +19,7 @@ app.use("/storage", express.static("storage"));
 app.use(cookieParser());
 const corsOptions = {
   credentials: true,
-  origin: "http://localhost:3000",
+  origin: "https://virtual-room-ddlf.vercel.app",
 };
 
 app.use(cors(corsOptions));
