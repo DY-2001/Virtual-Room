@@ -10,7 +10,7 @@ const server = require("http").createServer(app);
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "*",
+    origin: "https://spectacular-concha-fba40c.netlify.app",
     methods: ["GET", "POST"],
   },
 });
@@ -19,7 +19,7 @@ app.use("/storage", express.static("storage"));
 app.use(cookieParser());
 const corsOptions = {
   credentials: true,
-  origin: "*",
+  origin: "https://spectacular-concha-fba40c.netlify.app",
 };
 
 app.use(cors(corsOptions));
