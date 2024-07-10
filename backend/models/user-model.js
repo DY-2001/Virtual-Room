@@ -11,7 +11,7 @@ const userSchema = new Schema(
       required: false,
       get: (avatar) => {
         if (avatar) {
-          return `${avatar}`;
+          return `https://virtual-room-zmu2.onrender.com${avatar}`;
         }
         return avatar;
       },

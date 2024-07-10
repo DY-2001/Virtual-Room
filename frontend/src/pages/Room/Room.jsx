@@ -69,7 +69,11 @@ const Room = () => {
                 <div className={styles.userHead}>
                   <img
                     className={styles.userAvatar}
-                    src="./images/monkey-avatar.png"
+                    src={
+                      client.avatar
+                        ? client.avatar
+                        : "./images/monkey-avatar.png"
+                    }
                     alt=""
                   />
                   <audio
