@@ -6,8 +6,11 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
+    'Access-Control-Allow-Origin': '*',
   },
 });
+
+api.defaults.withCredentials = true;
 
 export const sendOtp = (data) => api.post("/api/send-otp", data);
 export const verifyOtp = (data) => api.post("/api/verify-otp", data);

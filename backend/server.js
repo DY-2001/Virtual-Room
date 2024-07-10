@@ -10,6 +10,7 @@ const server = require("http").createServer(app);
 
 const io = require("socket.io")(server, {
   cors: {
+    credentials: true,
     origin: "https://spectacular-concha-fba40c.netlify.app",
     methods: ["GET", "POST"],
   },
