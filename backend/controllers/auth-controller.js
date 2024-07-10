@@ -94,8 +94,16 @@ class AuthController {
     const { refreshToken } = req.cookies;
     await tokenService.removeRefreshToken(refreshToken);
 
-    res.clearCookie("refreshToken");
-    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    });
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    });
 
     res.json({ user: null, auth: false });
   }
