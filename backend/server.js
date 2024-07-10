@@ -21,6 +21,7 @@ app.use(cookieParser());
 const corsOptions = {
   credentials: true,
   origin: "https://spectacular-concha-fba40c.netlify.app",
+  exposedHeaders: ["set-cookie"]
 };
 
 app.use(cors(corsOptions));
