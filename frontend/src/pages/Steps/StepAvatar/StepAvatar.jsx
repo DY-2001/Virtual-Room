@@ -33,6 +33,7 @@ const StepAvatar = ({ onNext }) => {
     setLoading(true);
     try {
       const { data } = await activate({ name, avatar });
+      console.log("data is here", data)
       if (data.auth) {
         // if (unMounted) {
         dispatch(setAuth(data));
